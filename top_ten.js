@@ -9,31 +9,37 @@ d3.json("../Data/scraped_data.json").then((scraped_data) => {
         console.log(players_name)
 
     };
+
+    var tableData = players_name;
+
+    var button = d3.select("#selDataset");
+    var form = d3.select("form");
+
+    button.on("click", thatclick);
+    form.on("submit", thatclick);
+
+    function thatclick() {
+        d3.event.preventDefault();
+        const nametofilter = d3.select("#name").property("value");
+        var results = tableData.filter((name2) => name2['name'] == nametofilter);
+
+        renderTable(results);
+    }   
+
+    function renderTable() {
+        var tbody = d3.select("tbody");
+        tbody.html("");
+        table.forEach((PlayerNames) => {
+            console.log(PlayerNames);
+            var row = tbody.append("tr");
+            PlayerNames.forEach(name) {
+                var cell = row.append("td");
+                cell.text(name);
+                console.log(name)
+            };
+        });
+    }
 });
-var tableData = players_name;
-
-var button = d3.select("#selDataset");
-var form = d3.select("form");
-
-button.on("click", thatclick);
-form.on("submit", thatclick);
-
-function thatclick() {
-    d3.event.preventDefault();
-    const nametofilter = d3.select("#name").property("value");
-    var results = tableData.filter((name2) => name2['name'] == nametofilter);
-
-    renderTable(results);
-}   
-
-function renderTable(table) {
-    var tbody = d3.select("tbody");
-    tbody.html("");
-    table.forEach((PlayerNames) => {
-        var row = tbody.append("tr");
-        console.log(PlayerNames);
-    });
-}
 
 renderTable(players_name);
 // getDemonInfo();
